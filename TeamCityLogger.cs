@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
+using System.Globalization;
 
 
 namespace vstest.teamcity.logger
@@ -60,18 +61,18 @@ namespace vstest.teamcity.logger
 
 			if (e.Result.Outcome == TestOutcome.Skipped)
 			{
-				Console.WriteLine("##teamcity[testFailed name='{0}' message='Skipped: {1}']", name, e.Result.ErrorMessage);
+				Console.WriteLine("##teamcity[testFailed name='{0}' message='Skipped: {1}']", name, e.Result.ErrorMessage.Replace("\r\n", " "));
 			}
 			else if (e.Result.Outcome == TestOutcome.Failed)
 			{
-				Console.WriteLine("##teamcity[testFailed name='{0}' message='{1}']", name, e.Result.ErrorMessage);
+				Console.WriteLine("##teamcity[testFailed name='{0}' message='{1}']", name, e.Result.ErrorMessage.Replace("\r\n", " "));
 			}
 			else if (e.Result.Outcome == TestOutcome.Passed)
 			{
 				//// do nothing
 			}
 
-			Console.WriteLine("##teamcity[testFinished name='{0}' duration='{1}']", name, e.Result.Duration.TotalMilliseconds);
+			Console.WriteLine("##teamcity[testFinished name='{0}' duration='{1}']", name, ((long)e.Result.Duration.TotalMilliseconds).ToString(CultureInfo.InvariantCulture));
 		}
 
 		/// <summary>
