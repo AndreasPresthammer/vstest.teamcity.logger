@@ -1,0 +1,1 @@
+msbuild .\vstest.teamcity.logger.csproj /P:Configuration=Release
